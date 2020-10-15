@@ -166,17 +166,15 @@ public class MainActivity extends AppCompatActivity implements PlayerControlView
 
             mediaSource = new HlsMediaSource.Factory(buildDataSourceFactory()).createMediaSource(Uri.parse("https://dev-cdn-common.codemao.cn//dev/444/15980142126571-1P1-化妆大派对-数学大冒险.4_p1.m3u8"));
             TrackSelection.Factory trackSelectionFactory = new AdaptiveTrackSelection.Factory();
-            RenderersFactory renderersFactory =
-                    new DefaultRenderersFactory(this)
-                            .setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+            RenderersFactory renderersFactory = new DefaultRenderersFactory(this).setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
 
-            trackSelector = new DefaultTrackSelector(/* context= */ this, trackSelectionFactory);
+            trackSelector = new DefaultTrackSelector(this, trackSelectionFactory);
             trackSelector.setParameters(trackSelectorParameters);
-
 
             player = new SimpleExoPlayer.Builder(/* context= */ this, renderersFactory)
                             .setTrackSelector(trackSelector)
                             .build();
+
             player.addListener(new PlayerEventListener());
             player.setAudioAttributes(AudioAttributes.DEFAULT, /* handleAudioFocus= */ true);
             player.setPlayWhenReady(startAutoPlay);
