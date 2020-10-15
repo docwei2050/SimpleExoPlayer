@@ -93,9 +93,8 @@ public class MainActivity extends AppCompatActivity implements PlayerControlView
         playerView.requestFocus();
         //((SphericalGLSurfaceView) playerView.getVideoSurfaceView()).setDefaultStereoMode(C.STEREO_MODE_MONO);
         DefaultTrackSelector.ParametersBuilder builder =
-                new DefaultTrackSelector.ParametersBuilder(/* context= */ this);
-
-        builder.setTunnelingAudioSessionId(C.generateAudioSessionIdV21(/* context= */ this));
+                new DefaultTrackSelector.ParametersBuilder(this);
+        builder.setTunnelingAudioSessionId(C.generateAudioSessionIdV21(this));
         trackSelectorParameters = builder.build();
         clearStartPosition();
 
@@ -175,8 +174,7 @@ public class MainActivity extends AppCompatActivity implements PlayerControlView
             trackSelector.setParameters(trackSelectorParameters);
 
 
-            player =
-                    new SimpleExoPlayer.Builder(/* context= */ this, renderersFactory)
+            player = new SimpleExoPlayer.Builder(/* context= */ this, renderersFactory)
                             .setTrackSelector(trackSelector)
                             .build();
             player.addListener(new PlayerEventListener());
@@ -260,14 +258,15 @@ public class MainActivity extends AppCompatActivity implements PlayerControlView
     public DataSource.Factory buildDataSourceFactory() {
         DefaultDataSourceFactory upstreamFactory =
                 new DefaultDataSourceFactory(this, buildHttpDataSourceFactory());
-        return buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache());
+       // return buildReadOnlyCacheDataSource(upstreamFactory, getDownloadCache());
+        return upstreamFactory;
     }
 
     /**
      * Returns a {@link HttpDataSource.Factory}.
      */
     public HttpDataSource.Factory buildHttpDataSourceFactory() {
-        return new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "ExoPlayerDemo"));
+        return new DefaultHttpDataSourceFactory(Util.getUserAgent(this, "SimpleExoplayer"));
     }
 
     protected static CacheDataSourceFactory buildReadOnlyCacheDataSource(
