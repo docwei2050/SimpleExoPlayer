@@ -1,0 +1,7 @@
+include ':hls'
+include ':all'
+include ':app'
+include ':extractor'
+include ':core'
+include ':ui'
+rootProject.name = "SimpleExoPlayer"
